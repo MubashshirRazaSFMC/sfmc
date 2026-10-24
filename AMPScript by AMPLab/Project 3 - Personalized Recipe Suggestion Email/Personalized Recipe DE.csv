@@ -1,0 +1,6 @@
+SubscriberKey,DonorID,FirstName,LastPurchaseDate,PreferredCuisine,RecommendedRecipe,MissingIngredients
+101,1001,john,08-01-2024,Italian,"""Hearty Rustic Italian Lasagna""","Ricotta Cheese, Ground Beef"
+102,1002,sArAh,07-29-2024,Mediterranean,"""Mediterranean Lemon Herb Chicken Skewers""","Lemon, Olive Oil"
+103,1003,Mike,08-03-2024,Asian,"""Vegan Thai Coconut Curry""","Coconut Milk, Red Curry Paste"
+104,1004,Emma,07-25-2024,Seafood,"""Tuscan Garlic Butter Salmon""","Fresh Dill, Salmon Fillets"
+105,1005,chloe,08-02-2024,Dessert,"""Decadent Dark Chocolate Lava Cake""","Dark Chocolate, Heavy Cream"

@@ -1,0 +1,385 @@
+{
+  "v": 1,
+  "ts": 1792646510011,
+  "channel": "sms",
+  "subject": "Your subject line",
+  "sms": "%%[\n/* RETRIEVE FIELDS */\nSET @firstName = [First Name]\nSET @tier = [Membership Tier]\nSET @expDate = [Expriy Date]\nSET @creditPts = [CreditPoints]\n/* FNAME CLEAN UP */\nSET @fnameTrim = Trim(@firstName)\nSET @finalName = Propercase(@fnameTrim)\n/* CALCULATE REMAINING DAYS */\nSET @systemDate = Now(1)\nSET @localDate = SystemDateToLocalDate(@systemDate)\nSET @remainingDays = DATEDIFF(@localDate, @expDate, \"D\")\n/* FORMAT CREDIT POINTS */\nSET @creditPtsFormat = FormatNumber(@creditPts, \"#,###\")\n/* ADD 1 YEAR TO EXPIRY DATE */\nSET @newExpDate = DATEADD(@expDate, 1, \"Y\")\n/* REFORMAT DATE */\nSET @expryDateFormat = FormatDate(@expDate, \"MMM dd, yyyy\")\nSET @newExpDateFormat = FormatDate(@newExpDate, \"MMM yyyy\")\n]%%\n\nHi %%=V(@finalName)=%%! 🎉\n\nYour %%=V(@tier)=%% membership is expiring soon. You have %%=V(@remainingDays)=%% days left to renew. Renew by %%=V(@expryDateFormat)=%% to keep your %%=V(@creditPtsFormat)=%% credit points and enjoy all the benefits until %%=V(@newExpDateFormat)=%%. Check your email for renewal details.\n\nReply STOP to 0410456890 to opt out of messages. \n",
+  "blocks": [
+    {
+      "id": "b1",
+      "kind": "code",
+      "name": "AMPscript logic",
+      "content": ""
+    },
+    {
+      "id": "b2",
+      "kind": "html",
+      "name": "Header",
+      "content": "<div style=\"background:#1e3d58;padding:18px 24px;text-align:center;\">\n  <span style=\"color:#f7cb2d;font:700 20px Segoe UI,Arial,sans-serif;letter-spacing:1px;\">YOUR BRAND</span>\n</div>"
+    },
+    {
+      "id": "b3",
+      "kind": "html",
+      "name": "Hero",
+      "content": "<img src=\"https://images.ampscriptacademy.com.au/heroes/ampscript-academy.jpg\" alt=\"Hero image\" style=\"width:100%;height:auto;display:block;\">\n<div style=\"padding:20px 24px;text-align:center;font:700 24px Segoe UI,Arial,sans-serif;color:#12293c;\">\n  Your headline here\n</div>"
+    },
+    {
+      "id": "b4",
+      "kind": "html",
+      "name": "Body copy",
+      "content": "<div style=\"padding:26px 28px;font:400 16px/1.6 Segoe UI,Arial,sans-serif;color:#12293c;\">\n  <p>Hi there,</p>\n  <p>This is your email copy. Replace this text, then add personalisation from the Data Extensions panel on the left.</p>\n  <p style=\"margin-top:22px;\">\n    <a href=\"https://www.example.com\" style=\"background:#f7cb2d;color:#1e3d58;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:700;\">Your button</a>\n  </p>\n</div>"
+    },
+    {
+      "id": "b5",
+      "kind": "html",
+      "name": "Footer",
+      "content": "<div style=\"background:#0f2438;padding:16px 24px;text-align:center;color:#a5e2ff;font:400 12px Segoe UI,Arial,sans-serif;\">\n  Add your footer here. Unsubscribe anytime.\n</div>"
+    }
+  ],
+  "data": {
+    "order": [
+      "Membership Renewal DE",
+      "Loyalty Members",
+      "Property",
+      "Transactions"
+    ],
+    "des": {
+      "Loyalty Members": {
+        "name": "Loyalty Members",
+        "isSend": false,
+        "key": "SubscriberKey",
+        "columns": [
+          "SubscriberKey",
+          "FirstName",
+          "LastName",
+          "EmailAddress",
+          "Mobile",
+          "LoyaltyTier",
+          "BalancePoints",
+          "SignedUpPropertyID",
+          "State"
+        ],
+        "rows": [
+          {
+            "SubscriberKey": "SK100001",
+            "FirstName": "  ravi",
+            "LastName": "Zhang",
+            "EmailAddress": "rzhang@practice.example.com",
+            "Mobile": "61XXXXXXXXX",
+            "LoyaltyTier": "Silver",
+            "BalancePoints": "1879",
+            "SignedUpPropertyID": "PROP006",
+            "State": "QLD"
+          },
+          {
+            "SubscriberKey": "SK100002",
+            "FirstName": "Jerry",
+            "LastName": "Hernandez",
+            "EmailAddress": "jhernandez@demodata.example.com",
+            "Mobile": "61XXXXXXXXX",
+            "LoyaltyTier": "Bronze",
+            "BalancePoints": "581",
+            "SignedUpPropertyID": "PROP007",
+            "State": "ACT"
+          },
+          {
+            "SubscriberKey": "SK100004",
+            "FirstName": "samuel",
+            "LastName": "Ramirez",
+            "EmailAddress": "sramirez@practice.example.com",
+            "Mobile": "61XXXXXXXXX",
+            "LoyaltyTier": "Gold",
+            "BalancePoints": "8509",
+            "SignedUpPropertyID": "PROP007",
+            "State": "ACT"
+          },
+          {
+            "SubscriberKey": "SK100006",
+            "FirstName": "Hassan",
+            "LastName": "Svensson",
+            "EmailAddress": "hsvensson@sandbox.example.com",
+            "Mobile": "61XXXXXXXXX",
+            "LoyaltyTier": "Platinum",
+            "BalancePoints": "49252",
+            "SignedUpPropertyID": "PROP001",
+            "State": "SA"
+          },
+          {
+            "SubscriberKey": "SK100007",
+            "FirstName": "",
+            "LastName": "",
+            "EmailAddress": "lm10007@training.example.com",
+            "Mobile": "61XXXXXXXXX",
+            "LoyaltyTier": "Silver",
+            "BalancePoints": "2367",
+            "SignedUpPropertyID": "PROP004",
+            "State": "NSW"
+          },
+          {
+            "SubscriberKey": "SK100009",
+            "FirstName": " fatima",
+            "LastName": "Li",
+            "EmailAddress": "fatima.li13@academy.example.com",
+            "Mobile": "61XXXXXXXXX",
+            "LoyaltyTier": "Platinum",
+            "BalancePoints": "16449",
+            "SignedUpPropertyID": "PROP006",
+            "State": "QLD"
+          },
+          {
+            "SubscriberKey": "SK100011",
+            "FirstName": "Van",
+            "LastName": "Bouchard",
+            "EmailAddress": "vbouchard@practice.example.com",
+            "Mobile": "61XXXXXXXXX",
+            "LoyaltyTier": "Silver",
+            "BalancePoints": "1705",
+            "SignedUpPropertyID": "PROP003",
+            "State": "VIC"
+          }
+        ]
+      },
+      "Property": {
+        "name": "Property",
+        "isSend": false,
+        "columns": [
+          "PropertyID",
+          "PropertyName",
+          "State",
+          "Address",
+          "PropertyManager",
+          "CTALink"
+        ],
+        "rows": [
+          {
+            "PropertyID": "PROP001",
+            "PropertyName": "Adelaide Plaza",
+            "State": "SA",
+            "Address": "Level 1, 88 King William St, Adelaide SA 5000",
+            "PropertyManager": "Sarah Thompson",
+            "CTALink": "https://www.training.example/adelaide-plaza"
+          },
+          {
+            "PropertyID": "PROP002",
+            "PropertyName": "Brisbane Central",
+            "State": "QLD",
+            "Address": "Shop 42, 100 Queen St Mall, Brisbane QLD 4000",
+            "PropertyManager": "David Robertson",
+            "CTALink": "https://www.training.example/brisbane-central"
+          },
+          {
+            "PropertyID": "PROP003",
+            "PropertyName": "Melbourne Crown",
+            "State": "VIC",
+            "Address": "8 Whiteman St, Southbank VIC 3006",
+            "PropertyManager": "Emma Chen",
+            "CTALink": "https://www.training.example/melbourne-crown"
+          },
+          {
+            "PropertyID": "PROP004",
+            "PropertyName": "Sydney Harbour",
+            "State": "NSW",
+            "Address": "1 Darling Dr, Sydney NSW 2000",
+            "PropertyManager": "Sarah Williams",
+            "CTALink": "https://www.training.example/sydney-harbour"
+          },
+          {
+            "PropertyID": "PROP005",
+            "PropertyName": "Perth Riverside",
+            "State": "WA",
+            "Address": "1 Barrack St, Perth WA 6000",
+            "PropertyManager": "Daniel Thompson",
+            "CTALink": "https://www.training.example/perth-riverside"
+          },
+          {
+            "PropertyID": "PROP006",
+            "PropertyName": "Gold Coast Glitter",
+            "State": "QLD",
+            "Address": "3 Cavill Ave, Surfers Paradise QLD 4217",
+            "PropertyManager": "James Williams",
+            "CTALink": "https://www.training.example/gold-coast-glitter"
+          },
+          {
+            "PropertyID": "PROP007",
+            "PropertyName": "Canberra Grand",
+            "State": "ACT",
+            "Address": "London Cct, Canberra ACT 2600",
+            "PropertyManager": "Emma Robertson",
+            "CTALink": "https://www.training.example/canberra-grand"
+          },
+          {
+            "PropertyID": "PROP008",
+            "PropertyName": "Darwin Harbour",
+            "State": "NT",
+            "Address": "19 Kitchener Dr, Darwin NT 0800",
+            "PropertyManager": "James Robertson",
+            "CTALink": "https://www.training.example/darwin-harbour"
+          }
+        ]
+      },
+      "Transactions": {
+        "name": "Transactions",
+        "isSend": false,
+        "columns": [
+          "TransactionID",
+          "SubscriberKey",
+          "PropertyID",
+          "Amount",
+          "TransactionDate",
+          "Product"
+        ],
+        "rows": [
+          {
+            "TransactionID": "TX1001",
+            "SubscriberKey": "SK100001",
+            "PropertyID": "PROP006",
+            "Amount": "129.00",
+            "TransactionDate": "2026-07-02",
+            "Product": "Spa Package"
+          },
+          {
+            "TransactionID": "TX1002",
+            "SubscriberKey": "SK100001",
+            "PropertyID": "PROP006",
+            "Amount": "59.50",
+            "TransactionDate": "2026-07-15",
+            "Product": "Dinner Voucher"
+          },
+          {
+            "TransactionID": "TX1003",
+            "SubscriberKey": "SK100001",
+            "PropertyID": "PROP003",
+            "Amount": "240.00",
+            "TransactionDate": "2026-07-28",
+            "Product": "Weekend Stay"
+          },
+          {
+            "TransactionID": "TX1004",
+            "SubscriberKey": "SK100004",
+            "PropertyID": "PROP007",
+            "Amount": "89.90",
+            "TransactionDate": "2026-07-10",
+            "Product": "Buffet Lunch"
+          },
+          {
+            "TransactionID": "TX1005",
+            "SubscriberKey": "SK100006",
+            "PropertyID": "PROP001",
+            "Amount": "450.00",
+            "TransactionDate": "2026-06-30",
+            "Product": "Suite Upgrade"
+          },
+          {
+            "TransactionID": "TX1006",
+            "SubscriberKey": "SK100006",
+            "PropertyID": "PROP001",
+            "Amount": "32.00",
+            "TransactionDate": "2026-07-19",
+            "Product": "Room Service"
+          },
+          {
+            "TransactionID": "TX1007",
+            "SubscriberKey": "SK100009",
+            "PropertyID": "PROP006",
+            "Amount": "175.25",
+            "TransactionDate": "2026-07-22",
+            "Product": "Cocktail Class"
+          },
+          {
+            "TransactionID": "TX1008",
+            "SubscriberKey": "SK100011",
+            "PropertyID": "PROP003",
+            "Amount": "60.00",
+            "TransactionDate": "2026-07-05",
+            "Product": "Cinema Tickets"
+          },
+          {
+            "TransactionID": "TX1009",
+            "SubscriberKey": "SK100011",
+            "PropertyID": "PROP005",
+            "Amount": "310.75",
+            "TransactionDate": "2026-07-25",
+            "Product": "Golf Day"
+          }
+        ]
+      },
+      "Membership Renewal DE": {
+        "name": "Membership Renewal DE",
+        "isSend": true,
+        "columns": [
+          "SubscriberKey",
+          "First Name",
+          "Membership Tier",
+          "Expriy Date",
+          "Balance Points",
+          "CreditPoints"
+        ],
+        "rows": [
+          {
+            "SubscriberKey": "101",
+            "First Name": "John",
+            "Membership Tier": "Gold",
+            "Expriy Date": "2024-06-15",
+            "Balance Points": "1200",
+            "CreditPoints": "750"
+          },
+          {
+            "SubscriberKey": "102",
+            "First Name": "sarah",
+            "Membership Tier": "Silver",
+            "Expriy Date": "2024-06-15",
+            "Balance Points": "750",
+            "CreditPoints": "900"
+          },
+          {
+            "SubscriberKey": "103",
+            "First Name": "mIKE",
+            "Membership Tier": "Platinum",
+            "Expriy Date": "2024-06-16",
+            "Balance Points": "2000",
+            "CreditPoints": "1800"
+          },
+          {
+            "SubscriberKey": "104",
+            "First Name": "emma",
+            "Membership Tier": "Gold",
+            "Expriy Date": "2024-06-17",
+            "Balance Points": "1400",
+            "CreditPoints": "850"
+          },
+          {
+            "SubscriberKey": "105",
+            "First Name": "CHLOE",
+            "Membership Tier": "Silver",
+            "Expriy Date": "2024-06-14",
+            "Balance Points": "700",
+            "CreditPoints": "950"
+          },
+          {
+            "SubscriberKey": "106",
+            "First Name": "Alex",
+            "Membership Tier": "Bronze",
+            "Expriy Date": "2024-06-12",
+            "Balance Points": "300",
+            "CreditPoints": "600"
+          },
+          {
+            "SubscriberKey": "107",
+            "First Name": "OlivIA",
+            "Membership Tier": "Platinum",
+            "Expriy Date": "2024-06-11",
+            "Balance Points": "1800",
+            "CreditPoints": "2750"
+          }
+        ],
+        "key": "SubscriberKey"
+      }
+    }
+  },
+  "previewKey": "107",
+  "open": {
+    "Loyalty Members": true,
+    "Membership Renewal DE": true
+  },
+  "uploads": []
+}

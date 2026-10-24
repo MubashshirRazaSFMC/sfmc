@@ -1,0 +1,572 @@
+{
+  "v": 1,
+  "ts": 1792142782756,
+  "channel": "email",
+  "subject": "Your subject line",
+  "sms": "Hi there, this is your SMS. Replace this text, then add personalisation from the Data Extensions panel.",
+  "blocks": [
+    {
+      "id": "b1",
+      "kind": "code",
+      "name": "AMPscript logic",
+      "content": "%%[\n/* 1. Retrieve all required fields using Bracket Notation */\nSET @firstName     = [First Name]\nSET @lastName      = [Last Name]\nSET @pref          = [Preferences]\nSET @phone         = [Phone Number]\nSET @streetAddress = [Street Address]\nSET @postcode      = [Postcode]\nSET @state         = [State]\nSET @country       = [Country]\nSET @email         = [Email]\nSET @dob           = [Date of Birth]\n\n/* 2. Logic for name cleaning (Step-by-step to avoid parser crash) */\nSET @firstNameTrim  = Trim(@firstName)\nSET @finalFirstName = ProperCase(@firstNameTrim)\n\nSET @lastNameTrim   = Trim(@lastName)\nSET @finalLastName  = ProperCase(@lastNameTrim)\n\nSET @rawFullName    = Concat(@finalFirstName, \" \", @finalLastName)\nSET @finalFullName  = Trim(@rawFullName)\n\n/* 3. Logic for email formatting */\nSET @emailTrim  = Trim(@email)\nSET @emailLower = Lowercase(@emailTrim)\n\n/* 4. Greeting logic */\nIF NOT EMPTY(@finalFirstName) THEN\n    SET @greeting = Concat(\"Hi \", @finalFirstName, \",\")\nELSE\n    SET @greeting = \"Hi,\"\nENDIF\n\n/* 5. Logic for Full Address */\nIF NOT EMPTY(@streetAddress) AND NOT EMPTY(@state) AND NOT EMPTY(@postcode) AND NOT EMPTY(@country) THEN\n    SET @fullAddress = Concat(@streetAddress, \", \", @state, \" \", @postcode, \", \", @country)\nELSE\n    SET @fullAddress = \"\"\nENDIF\n]%%"
+    },
+    {
+      "id": "b2",
+      "kind": "html",
+      "name": "Header",
+      "content": ""
+    },
+    {
+      "id": "b3",
+      "kind": "html",
+      "name": "Hero",
+      "content": ""
+    },
+    {
+      "id": "b4",
+      "kind": "html",
+      "name": "Body copy",
+      "content": "<body style=\"margin: 0; padding: 0; background-color: #f4f7f9;\">\n\n  <!-- Main Wrapper -->\n  <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"background-color: #f4f7f9; padding: 40px 15px;\">\n    <tr>\n      <td align=\"center\">\n        \n        <!-- Email Container -->\n        <table class=\"email-container\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"600\" style=\"background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);\">\n          \n          <!-- Header Banner -->\n          <tr>\n            <td align=\"center\" style=\"background: linear-gradient(135deg, #2563eb, #1d4ed8); padding: 35px 20px;\">\n              <h1 style=\"color: #ffffff; margin: 0; font-size: 26px; font-weight: 600; letter-spacing: 0.5px;\">Welcome Aboard! 🎉</h1>\n            </td>\n          </tr>\n\n          <!-- Main Body -->\n          <tr>\n            <td class=\"content-padding\" style=\"padding: 40px 40px 30px 40px;\">\n              <p style=\"margin: 0 0 15px 0; font-size: 18px; color: #1e293b; font-weight: 600;\">\n                %%=v(@greeting)=%%\n              </p>\n              <p style=\"margin: 0 0 25px 0; font-size: 15px; line-height: 1.6; color: #475569;\">\n                Thank you for registering with us! We are thrilled to have you on board. Here is a summary of the details we currently have on file for your profile:\n              </p>\n\n              <!-- Details Card -->\n              <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 20px; margin-bottom: 30px;\">\n                \n                <!-- 1. Full Name Row -->\n                %%[ IF NOT EMPTY(@finalFullName) THEN ]%%\n                <tr>\n                  <td class=\"detail-label\" width=\"35%\" style=\"padding: 10px 0; font-size: 14px; color: #64748b; font-weight: 600; border-bottom: 1px solid #f1f5f9;\">Full Name</td>\n                  <td class=\"detail-value\" width=\"65%\" style=\"padding: 10px 0; font-size: 14px; color: #1e293b; font-weight: 500; border-bottom: 1px solid #f1f5f9;\">%%=v(@finalFullName)=%%</td>\n                </tr>\n                %%[ ENDIF ]%%\n\n                <!-- 2. Email Address Row -->\n                %%[ IF NOT EMPTY(@emailLower) THEN ]%%\n                <tr>\n                  <td class=\"detail-label\" style=\"padding: 10px 0; font-size: 14px; color: #64748b; font-weight: 600; border-bottom: 1px solid #f1f5f9;\">Email Address</td>\n                  <td class=\"detail-value\" style=\"padding: 10px 0; font-size: 14px; color: #1e293b; font-weight: 500; border-bottom: 1px solid #f1f5f9;\">%%=v(@emailLower)=%%</td>\n                </tr>\n                %%[ ENDIF ]%%\n\n                <!-- 3. Phone Number Row -->\n                %%[ IF NOT EMPTY(@phone) THEN ]%%\n                <tr>\n                  <td class=\"detail-label\" style=\"padding: 10px 0; font-size: 14px; color: #64748b; font-weight: 600; border-bottom: 1px solid #f1f5f9;\">Phone Number</td>\n                  <td class=\"detail-value\" style=\"padding: 10px 0; font-size: 14px; color: #1e293b; font-weight: 500; border-bottom: 1px solid #f1f5f9;\">%%=v(@phone)=%%</td>\n                </tr>\n                %%[ ENDIF ]%%\n\n                <!-- 4. Date of Birth Row -->\n                %%[ IF NOT EMPTY(@dob) THEN ]%%\n                <tr>\n                  <td class=\"detail-label\" style=\"padding: 10px 0; font-size: 14px; color: #64748b; font-weight: 600; border-bottom: 1px solid #f1f5f9;\">Date of Birth</td>\n                  <td class=\"detail-value\" style=\"padding: 10px 0; font-size: 14px; color: #1e293b; font-weight: 500; border-bottom: 1px solid #f1f5f9;\">%%=v(@dob)=%%</td>\n                </tr>\n                %%[ ENDIF ]%%\n\n                <!-- 5. Preferences Row -->\n                %%[ IF NOT EMPTY(@pref) THEN ]%%\n                <tr>\n                  <td class=\"detail-label\" style=\"padding: 10px 0; font-size: 14px; color: #64748b; font-weight: 600; border-bottom: 1px solid #f1f5f9;\">Preferences</td>\n                  <td class=\"detail-value\" style=\"padding: 10px 0; font-size: 14px; color: #1e293b; font-weight: 500; border-bottom: 1px solid #f1f5f9;\">%%=v(@pref)=%%</td>\n                </tr>\n                %%[ ENDIF ]%%\n\n                <!-- 6. Address Row -->\n                %%[ IF NOT EMPTY(@fullAddress) THEN ]%%\n                <tr>\n                  <td class=\"detail-label\" style=\"padding: 10px 0; font-size: 14px; color: #64748b; font-weight: 600;\">Address</td>\n                  <td class=\"detail-value\" style=\"padding: 10px 0; font-size: 14px; color: #1e293b; font-weight: 500;\">%%=v(@fullAddress)=%%</td>\n                </tr>\n                %%[ ENDIF ]%%\n\n              </table>\n\n              <!-- Call to Action (Update Info) -->\n              <p style=\"margin: 0 0 20px 0; font-size: 14px; line-height: 1.5; color: #475569; text-align: center;\">\n                Notice a typo or need to make a change? You can easily update your profile anytime.\n              </p>\n\n              <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\n                <tr>\n                  <td align=\"center\" style=\"padding-bottom: 25px;\">\n                    <a href=\"https://yourwebsite.com/update-profile\" class=\"btn\" style=\"background-color: #2563eb; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 6px; font-weight: 600; font-size: 15px; display: inline-block;\">\n                      Update Your Information\n                    </a>\n                  </td>\n                </tr>\n              </table>\n\n              <!-- Sign-off -->\n              <p style=\"margin: 15px 0 0 0; font-size: 15px; line-height: 1.6; color: #475569; border-top: 1px solid #e2e8f0; padding-top: 20px;\">\n                Best regards,<br>\n                <strong style=\"color: #1e293b;\">The Team</strong>\n              </p>\n            </td>\n          </tr>\n\n          <!-- Footer -->\n          <tr>\n            <td align=\"center\" style=\"background-color: #f1f5f9; padding: 20px 40px; font-size: 12px; color: #94a3b8; line-height: 1.5;\">\n              <p style=\"margin: 0;\">&copy; 2026 Your Company Name. All rights reserved.</p>\n              <p style=\"margin: 5px 0 0 0;\">\n                If you didn't create an account with us, please ignore this email or <a href=\"mailto:support@yourwebsite.com\" style=\"color: #2563eb; text-decoration: underline;\">contact support</a>.\n              </p>\n            </td>\n          </tr>\n\n        </table>\n        <!-- End Email Container -->\n\n      </td>\n    </tr>\n  </table>\n\n</body>"
+    },
+    {
+      "id": "b5",
+      "kind": "html",
+      "name": "Footer",
+      "content": "<div style=\"background:#0f2438;padding:16px 24px;text-align:center;color:#a5e2ff;font:400 12px Segoe UI,Arial,sans-serif;\">\n  Add your footer here. Unsubscribe anytime.\n</div>"
+    }
+  ],
+  "data": {
+    "order": [
+      "RegistrationConfirmationEmail",
+      "Loyalty Members",
+      "Property",
+      "Transactions",
+      "Anniversary SMS"
+    ],
+    "des": {
+      "Loyalty Members": {
+        "name": "Loyalty Members",
+        "isSend": false,
+        "key": "SubscriberKey",
+        "columns": [
+          "SubscriberKey",
+          "FirstName",
+          "LastName",
+          "EmailAddress",
+          "Mobile",
+          "LoyaltyTier",
+          "BalancePoints",
+          "SignedUpPropertyID",
+          "State"
+        ],
+        "rows": [
+          {
+            "SubscriberKey": "SK100001",
+            "FirstName": "  ravi",
+            "LastName": "Zhang",
+            "EmailAddress": "rzhang@practice.example.com",
+            "Mobile": "61XXXXXXXXX",
+            "LoyaltyTier": "Silver",
+            "BalancePoints": "1879",
+            "SignedUpPropertyID": "PROP006",
+            "State": "QLD"
+          },
+          {
+            "SubscriberKey": "SK100002",
+            "FirstName": "Jerry",
+            "LastName": "Hernandez",
+            "EmailAddress": "jhernandez@demodata.example.com",
+            "Mobile": "61XXXXXXXXX",
+            "LoyaltyTier": "Bronze",
+            "BalancePoints": "581",
+            "SignedUpPropertyID": "PROP007",
+            "State": "ACT"
+          },
+          {
+            "SubscriberKey": "SK100004",
+            "FirstName": "samuel",
+            "LastName": "Ramirez",
+            "EmailAddress": "sramirez@practice.example.com",
+            "Mobile": "61XXXXXXXXX",
+            "LoyaltyTier": "Gold",
+            "BalancePoints": "8509",
+            "SignedUpPropertyID": "PROP007",
+            "State": "ACT"
+          },
+          {
+            "SubscriberKey": "SK100006",
+            "FirstName": "Hassan",
+            "LastName": "Svensson",
+            "EmailAddress": "hsvensson@sandbox.example.com",
+            "Mobile": "61XXXXXXXXX",
+            "LoyaltyTier": "Platinum",
+            "BalancePoints": "49252",
+            "SignedUpPropertyID": "PROP001",
+            "State": "SA"
+          },
+          {
+            "SubscriberKey": "SK100007",
+            "FirstName": "",
+            "LastName": "",
+            "EmailAddress": "lm10007@training.example.com",
+            "Mobile": "61XXXXXXXXX",
+            "LoyaltyTier": "Silver",
+            "BalancePoints": "2367",
+            "SignedUpPropertyID": "PROP004",
+            "State": "NSW"
+          },
+          {
+            "SubscriberKey": "SK100009",
+            "FirstName": " fatima",
+            "LastName": "Li",
+            "EmailAddress": "fatima.li13@academy.example.com",
+            "Mobile": "61XXXXXXXXX",
+            "LoyaltyTier": "Platinum",
+            "BalancePoints": "16449",
+            "SignedUpPropertyID": "PROP006",
+            "State": "QLD"
+          },
+          {
+            "SubscriberKey": "SK100011",
+            "FirstName": "Van",
+            "LastName": "Bouchard",
+            "EmailAddress": "vbouchard@practice.example.com",
+            "Mobile": "61XXXXXXXXX",
+            "LoyaltyTier": "Silver",
+            "BalancePoints": "1705",
+            "SignedUpPropertyID": "PROP003",
+            "State": "VIC"
+          }
+        ]
+      },
+      "Property": {
+        "name": "Property",
+        "isSend": false,
+        "columns": [
+          "PropertyID",
+          "PropertyName",
+          "State",
+          "Address",
+          "PropertyManager",
+          "CTALink"
+        ],
+        "rows": [
+          {
+            "PropertyID": "PROP001",
+            "PropertyName": "Adelaide Plaza",
+            "State": "SA",
+            "Address": "Level 1, 88 King William St, Adelaide SA 5000",
+            "PropertyManager": "Sarah Thompson",
+            "CTALink": "https://www.training.example/adelaide-plaza"
+          },
+          {
+            "PropertyID": "PROP002",
+            "PropertyName": "Brisbane Central",
+            "State": "QLD",
+            "Address": "Shop 42, 100 Queen St Mall, Brisbane QLD 4000",
+            "PropertyManager": "David Robertson",
+            "CTALink": "https://www.training.example/brisbane-central"
+          },
+          {
+            "PropertyID": "PROP003",
+            "PropertyName": "Melbourne Crown",
+            "State": "VIC",
+            "Address": "8 Whiteman St, Southbank VIC 3006",
+            "PropertyManager": "Emma Chen",
+            "CTALink": "https://www.training.example/melbourne-crown"
+          },
+          {
+            "PropertyID": "PROP004",
+            "PropertyName": "Sydney Harbour",
+            "State": "NSW",
+            "Address": "1 Darling Dr, Sydney NSW 2000",
+            "PropertyManager": "Sarah Williams",
+            "CTALink": "https://www.training.example/sydney-harbour"
+          },
+          {
+            "PropertyID": "PROP005",
+            "PropertyName": "Perth Riverside",
+            "State": "WA",
+            "Address": "1 Barrack St, Perth WA 6000",
+            "PropertyManager": "Daniel Thompson",
+            "CTALink": "https://www.training.example/perth-riverside"
+          },
+          {
+            "PropertyID": "PROP006",
+            "PropertyName": "Gold Coast Glitter",
+            "State": "QLD",
+            "Address": "3 Cavill Ave, Surfers Paradise QLD 4217",
+            "PropertyManager": "James Williams",
+            "CTALink": "https://www.training.example/gold-coast-glitter"
+          },
+          {
+            "PropertyID": "PROP007",
+            "PropertyName": "Canberra Grand",
+            "State": "ACT",
+            "Address": "London Cct, Canberra ACT 2600",
+            "PropertyManager": "Emma Robertson",
+            "CTALink": "https://www.training.example/canberra-grand"
+          },
+          {
+            "PropertyID": "PROP008",
+            "PropertyName": "Darwin Harbour",
+            "State": "NT",
+            "Address": "19 Kitchener Dr, Darwin NT 0800",
+            "PropertyManager": "James Robertson",
+            "CTALink": "https://www.training.example/darwin-harbour"
+          }
+        ]
+      },
+      "Transactions": {
+        "name": "Transactions",
+        "isSend": false,
+        "columns": [
+          "TransactionID",
+          "SubscriberKey",
+          "PropertyID",
+          "Amount",
+          "TransactionDate",
+          "Product"
+        ],
+        "rows": [
+          {
+            "TransactionID": "TX1001",
+            "SubscriberKey": "SK100001",
+            "PropertyID": "PROP006",
+            "Amount": "129.00",
+            "TransactionDate": "2026-07-02",
+            "Product": "Spa Package"
+          },
+          {
+            "TransactionID": "TX1002",
+            "SubscriberKey": "SK100001",
+            "PropertyID": "PROP006",
+            "Amount": "59.50",
+            "TransactionDate": "2026-07-15",
+            "Product": "Dinner Voucher"
+          },
+          {
+            "TransactionID": "TX1003",
+            "SubscriberKey": "SK100001",
+            "PropertyID": "PROP003",
+            "Amount": "240.00",
+            "TransactionDate": "2026-07-28",
+            "Product": "Weekend Stay"
+          },
+          {
+            "TransactionID": "TX1004",
+            "SubscriberKey": "SK100004",
+            "PropertyID": "PROP007",
+            "Amount": "89.90",
+            "TransactionDate": "2026-07-10",
+            "Product": "Buffet Lunch"
+          },
+          {
+            "TransactionID": "TX1005",
+            "SubscriberKey": "SK100006",
+            "PropertyID": "PROP001",
+            "Amount": "450.00",
+            "TransactionDate": "2026-06-30",
+            "Product": "Suite Upgrade"
+          },
+          {
+            "TransactionID": "TX1006",
+            "SubscriberKey": "SK100006",
+            "PropertyID": "PROP001",
+            "Amount": "32.00",
+            "TransactionDate": "2026-07-19",
+            "Product": "Room Service"
+          },
+          {
+            "TransactionID": "TX1007",
+            "SubscriberKey": "SK100009",
+            "PropertyID": "PROP006",
+            "Amount": "175.25",
+            "TransactionDate": "2026-07-22",
+            "Product": "Cocktail Class"
+          },
+          {
+            "TransactionID": "TX1008",
+            "SubscriberKey": "SK100011",
+            "PropertyID": "PROP003",
+            "Amount": "60.00",
+            "TransactionDate": "2026-07-05",
+            "Product": "Cinema Tickets"
+          },
+          {
+            "TransactionID": "TX1009",
+            "SubscriberKey": "SK100011",
+            "PropertyID": "PROP005",
+            "Amount": "310.75",
+            "TransactionDate": "2026-07-25",
+            "Product": "Golf Day"
+          }
+        ]
+      },
+      "RegistrationConfirmationEmail": {
+        "name": "RegistrationConfirmationEmail",
+        "isSend": true,
+        "columns": [
+          "SubscriberKey",
+          "First Name",
+          "Last Name",
+          "Preferences",
+          "Phone Number",
+          "Street Address",
+          "Postcode",
+          "State",
+          "Country",
+          "Email",
+          "Date of Birth"
+        ],
+        "rows": [
+          {
+            "First Name": "john",
+            "Last Name": "DOE",
+            "Preferences": "Vegetarian",
+            "Phone Number": "123-456-7890",
+            "Street Address": "123 Main St",
+            "Postcode": "12345",
+            "State": "CA",
+            "Country": "USA",
+            "Email": "john@GMAIL.COM",
+            "Date of Birth": "01-01-1990",
+            "SubscriberKey": "101"
+          },
+          {
+            "First Name": "sArAh",
+            "Last Name": "smiTh",
+            "Preferences": "Vegan",
+            "Phone Number": "456-789-0123",
+            "Street Address": "456 Oak St",
+            "Postcode": "23456",
+            "State": "NY",
+            "Country": "USA",
+            "Email": "sArAh@gmail.com",
+            "Date of Birth": "15-05-1985",
+            "SubscriberKey": "102"
+          },
+          {
+            "First Name": "Mike",
+            "Last Name": "johnson",
+            "Preferences": "Pescatarian",
+            "Phone Number": "789-012-3456",
+            "Street Address": "789 Elm St",
+            "Postcode": "34567",
+            "State": "TX",
+            "Country": "USA",
+            "Email": "Mike@gmail.com",
+            "Date of Birth": "30-11-1988",
+            "SubscriberKey": "103"
+          },
+          {
+            "First Name": "",
+            "Last Name": "",
+            "Preferences": "Omnivore",
+            "Phone Number": "012-345-6789",
+            "Street Address": "987 Maple St",
+            "Postcode": "45678",
+            "State": "FL",
+            "Country": "USA",
+            "Email": "Emma@gmail.com",
+            "Date of Birth": "20-09-1995",
+            "SubscriberKey": "104"
+          },
+          {
+            "First Name": "chloe",
+            "Last Name": "TAYLOR",
+            "Preferences": "Vegetarian",
+            "Phone Number": "234-567-8901",
+            "Street Address": "654 Pine St",
+            "Postcode": "56789",
+            "State": "WA",
+            "Country": "USA",
+            "Email": "chloe@gmail.com",
+            "Date of Birth": "10-03-1983",
+            "SubscriberKey": "105"
+          },
+          {
+            "First Name": "alex",
+            "Last Name": "MARTINEZ",
+            "Preferences": "Vegan",
+            "Phone Number": "567-890-1234",
+            "Street Address": "321 Cedar St",
+            "Postcode": "67890",
+            "State": "CA",
+            "Country": "USA",
+            "Email": "alex@gmail.com",
+            "Date of Birth": "25-07-1992",
+            "SubscriberKey": "106"
+          },
+          {
+            "First Name": "olivia",
+            "Last Name": "anderson",
+            "Preferences": "Omnivore",
+            "Phone Number": "678-901-2345",
+            "Street Address": "789 Birch St",
+            "Postcode": "78901",
+            "State": "NY",
+            "Country": "USA",
+            "Email": "olivia@gmail.com",
+            "Date of Birth": "05-12-1979",
+            "SubscriberKey": "107"
+          },
+          {
+            "First Name": "john",
+            "Last Name": "DOE",
+            "Preferences": "Vegetarian",
+            "Phone Number": "123-456-7890",
+            "Street Address": "123 Main St",
+            "Postcode": "12345",
+            "State": "CA",
+            "Country": "USA",
+            "Email": "john@GMAIL.COM",
+            "Date of Birth": "01-01-1990",
+            "SubscriberKey": "108"
+          },
+          {
+            "First Name": "sArAh",
+            "Last Name": "smiTh",
+            "Preferences": "Vegan",
+            "Phone Number": "456-789-0123",
+            "Street Address": "",
+            "Postcode": "",
+            "State": "NY",
+            "Country": "USA",
+            "Email": "sArAh@gmail.com",
+            "Date of Birth": "15-05-1985",
+            "SubscriberKey": "109"
+          },
+          {
+            "First Name": "Mike",
+            "Last Name": "johnson",
+            "Preferences": "Pescatarian",
+            "Phone Number": "789-012-3456",
+            "Street Address": "789 Elm St",
+            "Postcode": "34567",
+            "State": "TX",
+            "Country": "USA",
+            "Email": "Mike@gmail.com",
+            "Date of Birth": "30-11-1988",
+            "SubscriberKey": "110"
+          },
+          {
+            "First Name": "Emma",
+            "Last Name": "BROWN",
+            "Preferences": "Omnivore",
+            "Phone Number": "012-345-6789",
+            "Street Address": "987 Maple St",
+            "Postcode": "45678",
+            "State": "FL",
+            "Country": "USA",
+            "Email": "Emma@gmail.com",
+            "Date of Birth": "20-09-1995",
+            "SubscriberKey": "111"
+          },
+          {
+            "First Name": "chloe",
+            "Last Name": "TAYLOR",
+            "Preferences": "Vegetarian",
+            "Phone Number": "234-567-8901",
+            "Street Address": "654 Pine St",
+            "Postcode": "56789",
+            "State": "WA",
+            "Country": "USA",
+            "Email": "chloe@gmail.com",
+            "Date of Birth": "10-03-1983",
+            "SubscriberKey": "112"
+          },
+          {
+            "First Name": "alex",
+            "Last Name": "MARTINEZ",
+            "Preferences": "Vegan",
+            "Phone Number": "567-890-1234",
+            "Street Address": "321 Cedar St",
+            "Postcode": "67890",
+            "State": "CA",
+            "Country": "USA",
+            "Email": "alex@gmail.com",
+            "Date of Birth": "25-07-1992",
+            "SubscriberKey": "113"
+          },
+          {
+            "First Name": "olivia",
+            "Last Name": "anderson",
+            "Preferences": "Omnivore",
+            "Phone Number": "678-901-2345",
+            "Street Address": "789 Birch St",
+            "Postcode": "78901",
+            "State": "NY",
+            "Country": "USA",
+            "Email": "olivia@gmail.com",
+            "Date of Birth": "05-12-1979",
+            "SubscriberKey": "114"
+          }
+        ],
+        "key": "SubscriberKey"
+      },
+      "Anniversary SMS": {
+        "name": "Anniversary SMS",
+        "isSend": false,
+        "columns": [
+          "First Name",
+          "Anniversary Date",
+          "Mobile Number",
+          "Tenure"
+        ],
+        "rows": [
+          {
+            "First Name": "john",
+            "Anniversary Date": "15-04-2022",
+            "Mobile Number": "1234567890",
+            "Tenure": "5"
+          },
+          {
+            "First Name": "sArAh",
+            "Anniversary Date": "20-05-2021",
+            "Mobile Number": "1987654321",
+            "Tenure": "3"
+          },
+          {
+            "First Name": "Mike",
+            "Anniversary Date": "10-01-2023",
+            "Mobile Number": "1654321890",
+            "Tenure": "1"
+          },
+          {
+            "First Name": "Emma",
+            "Anniversary Date": "30-11-2020",
+            "Mobile Number": "1765432987",
+            "Tenure": "4"
+          },
+          {
+            "First Name": "chloe",
+            "Anniversary Date": "25-09-2022",
+            "Mobile Number": "1876543210",
+            "Tenure": "2"
+          },
+          {
+            "First Name": "alex",
+            "Anniversary Date": "18-07-2021",
+            "Mobile Number": "1345678901",
+            "Tenure": "3"
+          },
+          {
+            "First Name": "olivia",
+            "Anniversary Date": "05-03-2023",
+            "Mobile Number": "1456789012",
+            "Tenure": "1"
+          }
+        ]
+      }
+    }
+  },
+  "previewKey": "109",
+  "open": {
+    "Loyalty Members": false,
+    "RegistrationConfirmationEmail": false,
+    "Anniversary SMS": false
+  },
+  "uploads": []
+}

@@ -1,0 +1,8 @@
+SubscriberKey,MemberID,First Name,Last Name,MembershipType,LastVisit,LastWeight
+101,1001,john,DOE,Premium,2024-05-20,180.5
+102,1002,sArAh,smiTh,Basic,2024-05-18,150.2
+103,1003,Mike,johnson,Standard,2024-05-15,220.7
+104,1004,Emma,BROWN,Premium,2024-05-19,135.4
+105,1005,chloe,TAYLOR,Basic,2024-05-17,210.6
+106,1006,alex,MARTINEZ,Standard,2024-05-14,160
+107,1007,olivia,anderson,Premium,2024-05-13,190.5
